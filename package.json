@@ -19,7 +19,7 @@
     "test:renderer": "vitest run -r packages/renderer --passWithNoTests",
     "watch": "node scripts/watch.js",
     "lint": "eslint . --ext js,ts,vue",
-    "typecheck": "npm run typecheck:main && npm run typecheck:preload && npm run typecheck:renderer"
+    "lint:fix": "eslint . --ext js,ts,vue --fix"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "2.2.2",
