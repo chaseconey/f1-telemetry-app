@@ -16,6 +16,7 @@ let drivers = {};
  *   'skipParsing' is optional, setting it to true will make the client not parse and emit content. You can consume telemetry data using forwardAddresses instead.
  *                   defaults to false
  */
+// TODO: use app settings here
 const client = new F1TelemetryClient({ port: 20777 });
 // client.on(PACKETS.event, console.log);
 // client.on(PACKETS.motion, console.log);
