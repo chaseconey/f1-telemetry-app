@@ -1,5 +1,5 @@
 {
-  "name": "vite-electron-builder",
+  "name": "f1-telemetry-app",
   "private": true,
   "engines": {
     "node": ">=v16.13",
