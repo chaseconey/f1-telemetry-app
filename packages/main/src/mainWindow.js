@@ -7,6 +7,9 @@ const { PACKETS } = constants;
 let session = {};
 let lapData = {};
 let drivers = {};
+let lapHistory = [];
+let events = [];
+let fastestLap;
 /*
  *   'port' is optional, defaults to 20777
  *   'bigintEnabled' is optional, setting it to false makes the parser skip bigint values,
@@ -18,7 +21,14 @@ let drivers = {};
  */
 // TODO: use app settings here
 const client = new F1TelemetryClient({ port: 20777 });
-// client.on(PACKETS.event, console.log);
+client.on(PACKETS.event, (data) => {
+  events.push(data);
+  if (data.m_eventStringCode === 'FTLP') {
+    // TODO: This event doesn't seem to be firing from our client (bug?)
+    console.log(data);
+    fastestLap = data.m_eventDetails.lapTime;
+  }
+});
 // client.on(PACKETS.motion, console.log);
 // client.on(PACKETS.carSetups, console.log);
 client.on(PACKETS.lapData, (data) => (lapData = data));
@@ -29,7 +39,9 @@ client.on(PACKETS.participants, (data) => (drivers = data));
 // client.on(PACKETS.finalClassification, console.log);
 // client.on(PACKETS.lobbyInfo, console.log);
 // client.on(PACKETS.carDamage, console.log);
-// client.on(PACKETS.sessionHistory, console.log);
+client.on(PACKETS.sessionHistory, (data) => {
+  lapHistory[data.m_carIdx] = data;
+});
 
 async function createWindow() {
   const browserWindow = new BrowserWindow({
@@ -63,6 +75,8 @@ async function createWindow() {
       console.log('Sending lapData');
 
       browserWindow?.webContents.send('lapData', lapData);
+      browserWindow?.webContents.send('lapHistory', lapHistory);
+      browserWindow?.webContents.send('fastestLap', fastestLap);
     }, 2000);
 
     // if (import.meta.env.DEV) {
@@ -80,7 +94,7 @@ async function createWindow() {
       ? import.meta.env.VITE_DEV_SERVER_URL
       : new URL(
           '../renderer/dist/index.html',
-          'file://' + __dirname,
+          'file://' + __dirname
         ).toString();
 
   await browserWindow.loadURL(pageUrl);
