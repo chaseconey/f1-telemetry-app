@@ -21,6 +21,8 @@ export default {
         return [];
       }
 
+      console.log(this.drivers);
+
       // Remove dead cars
       const filtered = this.drivers.filter((car) => car.m_carPosition > 0);
 
@@ -100,9 +102,7 @@ export default {
         >
           {{ formatNonZero(driver.m_sector2TimeInMS) }}
         </td>
-        <td>
-          {{ driver.m_penaltiesTime || 0 }}s ({{ driver.m_warnings || 0 }})
-        </td>
+        <td>{{ driver.m_penalties || 0 }}s ({{ driver.m_warnings || 0 }})</td>
       </tr>
     </tbody>
   </table>
