@@ -1,30 +1,33 @@
 <script>
+import { mergeData } from '/@/utils';
+import { mapState } from 'vuex';
+
 export default {
-  props: {
-    drivers: {
-      type: Array,
-      default: () => [],
-    },
-    fastestLap: {
-      type: Number,
-      default: () => Infinity,
-    },
-  },
-  data() {
-    return {
-      lapData: null,
-    };
-  },
   computed: {
+    ...mapState(['lapData', 'drivers', 'lapHistory', 'fastestLap']),
+    mergedDriverData() {
+      if (
+        !this.lapData?.m_lapData ||
+        !this.drivers?.m_participants ||
+        !this.lapHistory
+      ) {
+        return [];
+      }
+      return mergeData(
+        this.lapData.m_lapData,
+        this.drivers.m_participants,
+        this.lapHistory
+      );
+    },
     sortedLapData() {
-      if (!this.drivers) {
+      if (!this.mergedDriverData) {
         return [];
       }
 
-      console.log(this.drivers);
-
       // Remove dead cars
-      const filtered = this.drivers.filter((car) => car.m_carPosition > 0);
+      const filtered = this.mergedDriverData?.filter(
+        (car) => car.m_carPosition > 0
+      );
 
       // TODO: Map in driver names
 

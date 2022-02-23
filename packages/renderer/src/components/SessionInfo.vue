@@ -1,14 +1,9 @@
 <script>
+import { mapState } from 'vuex';
+
 export default {
-  props: {
-    session: {
-      type: Object,
-      default: () => ({}),
-    },
-    fastestLap: {
-      type: Number,
-      default: 0,
-    },
+  computed: {
+    ...mapState(['session', 'fastestLap']),
   },
 };
 </script>

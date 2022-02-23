@@ -1,59 +1,35 @@
 <script>
-import SessionInfo from '/@/components/SessionInfo.vue';
-import DriverTable from '/@/components/DriverTable.vue';
-import { mergeData } from '/@/utils';
+import Nav from '/@/components/Nav.vue';
 
 export default {
-  components: { SessionInfo, DriverTable },
+  components: { Nav },
   data() {
-    return {
-      // TODO: type  this somehow?
-      drivers: null,
-      session: null,
-      lapData: null,
-      lapHistory: [],
-      fastestLap: null,
-    };
+    return {};
   },
-  computed: {
-    mergedDriverData() {
-      if (
-        !this.lapData?.m_lapData ||
-        !this.drivers?.m_participants ||
-        !this.lapHistory
-      ) {
-        return [];
-      }
 
-      return mergeData(
-        this.lapData.m_lapData,
-        this.drivers.m_participants,
-        this.lapHistory
-      );
-    },
-  },
   created() {
     window.api.handle('drivers', () => (event, data) => {
-      this.drivers = data;
+      this.$store.state.drivers = data;
     });
     window.api.handle('lapData', () => (event, data) => {
-      this.lapData = data;
+      this.$store.state.lapData = data;
     });
     window.api.handle('session', () => (_event, data) => {
-      this.session = data;
+      this.$store.state.session = data;
     });
     window.api.handle('lapHistory', () => (_event, data) => {
-      this.lapHistory = data;
+      this.$store.state.lapHistory = data;
     });
     window.api.handle('fastestLap', () => (_event, data) => {
-      this.fastestLap = data;
+      this.$store.state.fastestLap = data;
     });
   },
 };
 </script>
 <template>
   <div class="container">
-    <SessionInfo :session="session" :fastest-lap="fastestLap" />
-    <DriverTable :drivers="mergedDriverData" :fastest-lap="fastestLap" />
+    <Nav />
+    <router-view />
+    <div v-if="$store.drivers" class="text-center">Waiting for match ...</div>
   </div>
 </template>
