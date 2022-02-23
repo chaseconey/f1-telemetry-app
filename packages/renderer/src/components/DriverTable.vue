@@ -58,7 +58,6 @@ export default {
       <tr>
         <th>Pos</th>
         <th>Driver</th>
-        <th>Delta</th>
         <th>Last Lap</th>
         <th>S1</th>
         <th>S2</th>
@@ -69,7 +68,6 @@ export default {
       <tr v-for="(driver, idx) in sortedLapData" :key="idx">
         <td>{{ driver.m_carPosition }}</td>
         <td>{{ driver.m_raceNumber || idx }}</td>
-        <td>0</td>
         <td
           class="text-end"
           :class="{
