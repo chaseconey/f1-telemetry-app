@@ -1,8 +1,8 @@
 <script>
-import Nav from '/@/components/Nav.vue';
+import TopNav from '/@/components/TopNav.vue';
 
 export default {
-  components: { Nav },
+  components: { TopNav },
   data() {
     return {};
   },
@@ -28,8 +28,13 @@ export default {
 </script>
 <template>
   <div class="container">
-    <Nav />
+    <TopNav />
     <router-view />
-    <div v-if="$store.drivers" class="text-center">Waiting for match ...</div>
+    <div
+      v-if="$store.drivers"
+      class="text-center"
+    >
+      Waiting for match ...
+    </div>
   </div>
 </template>

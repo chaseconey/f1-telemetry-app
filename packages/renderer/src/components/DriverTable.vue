@@ -16,7 +16,7 @@ export default {
       return mergeData(
         this.lapData.m_lapData,
         this.drivers.m_participants,
-        this.lapHistory
+        this.lapHistory,
       );
     },
     sortedLapData() {
@@ -26,7 +26,7 @@ export default {
 
       // Remove dead cars
       const filtered = this.mergedDriverData?.filter(
-        (car) => car.m_carPosition > 0
+        (car) => car.m_carPosition > 0,
       );
 
       // TODO: Map in driver names
@@ -68,7 +68,10 @@ export default {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(driver, idx) in sortedLapData" :key="idx">
+      <tr
+        v-for="(driver, idx) in sortedLapData"
+        :key="idx"
+      >
         <td>{{ driver.m_carPosition }}</td>
         <td>{{ driver.m_raceNumber || idx }}</td>
         <td
@@ -103,7 +106,13 @@ export default {
         >
           {{ formatNonZero(driver.m_sector2TimeInMS) }}
         </td>
-        <td>{{ driver.m_penalties || 0 }}s ({{ driver.m_warnings || 0 }})</td>
+        <td class="text-end">
+          {{ driver.m_penalties || 0 }}s
+          <span
+            :class="{ 'bg-warning text-dark': driver.m_warnings > 0 }"
+            class="badge bg-secondary text-white"
+          >{{ driver.m_warnings || 0 }}</span>
+        </td>
       </tr>
     </tbody>
   </table>

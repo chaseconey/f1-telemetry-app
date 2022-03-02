@@ -1,11 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import DriverTable from '/@/components/DriverTable.vue';
 import SessionInfo from '/@/components/SessionInfo.vue';
-import Quali from '/@/components/Quali.vue';
+import QualiTable from '/@/components/QualiTable.vue';
 
 const routes = [
   { path: '/', component: SessionInfo },
-  { path: '/quali', component: Quali },
+  { path: '/quali', component: QualiTable },
   { path: '/race', component: DriverTable },
 ];
 

@@ -65,15 +65,11 @@ async function createWindow() {
     client.start();
 
     setInterval(() => {
-      console.log('Sending session');
-
       browserWindow?.webContents.send('session', session);
       browserWindow?.webContents.send('drivers', drivers);
     }, 10000);
 
     setInterval(() => {
-      console.log('Sending lapData');
-
       browserWindow?.webContents.send('lapData', lapData);
       browserWindow?.webContents.send('lapHistory', lapHistory);
       browserWindow?.webContents.send('fastestLap', fastestLap);
@@ -94,7 +90,7 @@ async function createWindow() {
       ? import.meta.env.VITE_DEV_SERVER_URL
       : new URL(
           '../renderer/dist/index.html',
-          'file://' + __dirname
+          'file://' + __dirname,
         ).toString();
 
   await browserWindow.loadURL(pageUrl);
