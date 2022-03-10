@@ -2,6 +2,10 @@ import { BrowserWindow } from 'electron';
 import { join } from 'path';
 import { URL } from 'url';
 import { F1TelemetryClient, constants } from '@racehub-io/f1-telemetry-client';
+import { mergeData } from './utils';
+import { app } from 'electron';
+import fs from 'fs';
+
 const { PACKETS } = constants;
 
 let session = {};
@@ -36,12 +40,40 @@ client.on(PACKETS.session, (data) => (session = data));
 client.on(PACKETS.participants, (data) => (drivers = data));
 // client.on(PACKETS.carTelemetry, console.log);
 // client.on(PACKETS.carStatus, console.log);
-// client.on(PACKETS.finalClassification, console.log);
+client.on(PACKETS.finalClassification, (data) =>
+  handleFinalClassification(data),
+);
 // client.on(PACKETS.lobbyInfo, console.log);
 // client.on(PACKETS.carDamage, console.log);
 client.on(PACKETS.sessionHistory, (data) => {
   lapHistory[data.m_carIdx] = data;
 });
+
+function handleFinalClassification(data) {
+  console.log('writing final data');
+  const driverData = mergeData(
+    lapData.m_lapData,
+    drivers.m_participants,
+    lapHistory,
+    data.m_classificationData,
+  );
+
+  const raceData = {
+    driverData,
+    session,
+  };
+
+  const downloadPath = app.getPath('downloads');
+  // TODO: use session id in name
+  const fileLocation = `${downloadPath}/race.json`;
+
+  BigInt.prototype['toJSON'] = function () {
+    return this.toString();
+  };
+  fs.writeFileSync(fileLocation, JSON.stringify(raceData));
+
+  console.log(`Race data written to ${fileLocation}`);
+}
 
 async function createWindow() {
   const browserWindow = new BrowserWindow({
@@ -66,12 +98,16 @@ async function createWindow() {
 
     setInterval(() => {
       browserWindow?.webContents.send('session', session);
-      browserWindow?.webContents.send('drivers', drivers);
     }, 10000);
 
     setInterval(() => {
-      browserWindow?.webContents.send('lapData', lapData);
-      browserWindow?.webContents.send('lapHistory', lapHistory);
+      // Merge drivers and other data together by driver
+      let merged = mergeData(
+        lapData.m_lapData,
+        drivers.m_participants,
+        lapHistory,
+      );
+      browserWindow?.webContents.send('drivers', merged);
       browserWindow?.webContents.send('fastestLap', fastestLap);
     }, 2000);
 

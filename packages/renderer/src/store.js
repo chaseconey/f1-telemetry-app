@@ -5,8 +5,6 @@ export default createStore({
     return {
       drivers: null,
       session: null,
-      lapData: null,
-      lapHistory: [],
       fastestLap: null,
     };
   },
