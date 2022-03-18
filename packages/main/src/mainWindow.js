@@ -1,10 +1,13 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, Menu } from 'electron';
 import { join } from 'path';
 import { URL } from 'url';
 import { F1TelemetryClient, constants } from '@racehub-io/f1-telemetry-client';
 import { mergeData } from './utils';
 import { app } from 'electron';
 import fs from 'fs';
+import { menuConfig } from './mainMenu';
+
+let mainMenu = Menu.buildFromTemplate(menuConfig);
 
 const { PACKETS } = constants;
 
@@ -84,6 +87,8 @@ async function createWindow() {
       preload: join(__dirname, '../../preload/dist/index.cjs'),
     },
   });
+
+  Menu.setApplicationMenu(mainMenu);
 
   /**
    * If you install `show: true` then it can cause issues when trying to close the window.
