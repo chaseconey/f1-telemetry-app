@@ -28,7 +28,7 @@ export default {
   methods: {
     getWeatherIcon(sample) {
       const icon = kebabCase(weatherTypes[sample.m_weather]);
-      return `/assets/${icon}.png`;
+      return `./assets/${icon}.png`;
     },
   },
 };
@@ -62,8 +62,8 @@ export default {
       >
         <div class="d-flex flex-column text-center border">
           <img
-            style="width: 8rem"
-            class="align-self-center"
+            style="width: 128px"
+            class="align-self-center p-4"
             :src="getWeatherIcon(sample)"
             :alt="weatherTypes[sample.m_weather]"
           >
