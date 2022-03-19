@@ -1,17 +1,17 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
+import SectorTimeCells from './SectorTimeCells.vue';
 
 export default {
+  components: { SectorTimeCells },
   computed: {
     ...mapState(['drivers', 'fastestLap']),
     sortedLapData() {
       if (!this.drivers) {
         return [];
       }
-
       // Remove dead cars
       const filtered = this.drivers?.filter((car) => car.m_carPosition > 0);
-
       // Sort by position
       return filtered.sort((a, b) => a.m_carPosition - b.m_carPosition);
     },
@@ -49,6 +49,7 @@ export default {
         <th>Last Lap</th>
         <th>S1</th>
         <th>S2</th>
+        <th>S3</th>
         <th>Penalties</th>
       </tr>
     </thead>
@@ -69,28 +70,7 @@ export default {
         >
           {{ formatNonZero(driver.m_lastLapTimeInMS) }}
         </td>
-        <td
-          class="text-end"
-          :class="{
-            'bg-success text-white': isPersonalBestSector(
-              driver,
-              driver.m_bestSector1LapNum
-            ),
-          }"
-        >
-          {{ formatNonZero(driver.m_sector1TimeInMS) }}
-        </td>
-        <td
-          class="text-end"
-          :class="{
-            'bg-success text-white': isPersonalBestSector(
-              driver,
-              driver.m_bestSector2LapNum
-            ),
-          }"
-        >
-          {{ formatNonZero(driver.m_sector2TimeInMS) }}
-        </td>
+        <SectorTimeCells :driver="driver" />
         <td class="text-end">
           {{ driver.m_penalties || 0 }}s
         </td>
