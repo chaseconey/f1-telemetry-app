@@ -51,7 +51,7 @@ if (import.meta.env.DEV) {
         loadExtensionOptions: {
           allowFileAccess: true,
         },
-      })
+      }),
     )
     .catch((e) => console.error('Failed install extension:', e));
 }

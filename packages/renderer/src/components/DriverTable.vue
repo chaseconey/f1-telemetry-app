@@ -53,7 +53,10 @@ export default {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(driver, idx) in sortedLapData" :key="idx">
+      <tr
+        v-for="(driver, idx) in sortedLapData"
+        :key="idx"
+      >
         <td>{{ driver.m_carPosition }}</td>
         <td>{{ getDriveNameByRacingNumber(driver.m_raceNumber) }}</td>
         <td
@@ -88,7 +91,9 @@ export default {
         >
           {{ formatNonZero(driver.m_sector2TimeInMS) }}
         </td>
-        <td class="text-end">{{ driver.m_penalties || 0 }}s</td>
+        <td class="text-end">
+          {{ driver.m_penalties || 0 }}s
+        </td>
       </tr>
     </tbody>
   </table>

@@ -1,4 +1,5 @@
 import { app, dialog } from 'electron';
+import settings from 'electron-settings';
 
 const isMac = process.platform === 'darwin';
 
@@ -10,13 +11,14 @@ export const menuConfig = [
       {
         label: 'Load Driver Map',
         click: async () => {
+          let setting = await settings.get('driver.map-file');
+
           let file = await dialog.showOpenDialog({
-            defaultPath: app.getPath('home'),
+            defaultPath: setting || app.getPath('home'),
           });
 
           if (!file.canceled) {
-            let mapFile = JSON.parse(file.filePaths[0]);
-            console.log(mapFile);
+            settings.setSync('driver.map-file', file.filePaths[0]);
           }
         },
       },
