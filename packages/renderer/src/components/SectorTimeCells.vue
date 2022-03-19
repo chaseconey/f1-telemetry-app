@@ -1,6 +1,6 @@
 <script>
 export default {
-  props: { driver: { type: Object, default: null } },
+  props: { driver: { type: Object, default: () => {} } },
   computed: {
     getSectorData() {
       // If a new lap has started, show last lap until first sector is done
@@ -43,7 +43,7 @@ export default {
       'bg-success text-white': isPersonalBestSector(1),
     }"
   >
-    {{ formatNonZero(getSectorData.m_sector1TimeInMS) }}
+    {{ formatNonZero(getSectorData?.m_sector1TimeInMS) }}
   </td>
   <td
     class="text-end"
@@ -51,7 +51,7 @@ export default {
       'bg-success text-white': isPersonalBestSector(2),
     }"
   >
-    {{ formatNonZero(getSectorData.m_sector2TimeInMS) }}
+    {{ formatNonZero(getSectorData?.m_sector2TimeInMS) }}
   </td>
   <td
     class="text-end"
@@ -59,7 +59,7 @@ export default {
       'bg-success text-white': isPersonalBestSector(3),
     }"
   >
-    {{ formatNonZero(getSectorData.m_sector3TimeInMS) }}
+    {{ formatNonZero(getSectorData?.m_sector3TimeInMS) }}
   </td>
 </template>
 <style scoped></style>
