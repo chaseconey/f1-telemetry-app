@@ -1,7 +1,7 @@
 <script>
 import { mapState } from 'vuex';
 import { tracks, weatherTypes, sessionTypes } from '/@/constants';
-import { kebabCase } from 'lodash';
+import { kebabCase, groupBy } from 'lodash';
 
 export default {
   computed: {
@@ -20,9 +20,11 @@ export default {
         return [];
       }
 
-      return this.session.m_weatherForecastSamples.filter(
+      const samples = this.session.m_weatherForecastSamples.filter(
         (sample) => sample.m_trackTemperature > 0,
       );
+
+      return groupBy(samples, 'm_sessionType');
     },
   },
   methods: {
@@ -54,11 +56,16 @@ export default {
       </div>
     </div>
     <h2>Forecast</h2>
-    <div class="row my-2">
+    <div
+      v-for="(sessionWeather, idx) in filteredWeatherSamples"
+      :key="`set-${idx}`"
+      class="row my-2"
+    >
+      <h5>{{ sessionTypes[idx] }}</h5>
       <div
-        v-for="sample in filteredWeatherSamples"
+        v-for="sample in sessionWeather"
         :key="sample.m_timeOffset"
-        class="col"
+        class="col-2"
       >
         <div class="d-flex flex-column text-center border">
           <img
