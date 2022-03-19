@@ -22,6 +22,15 @@ export const menuConfig = [
           }
         },
       },
+      {
+        label: 'Show Settings',
+        click: async () => {
+          let allSettings = settings.getSync();
+          await dialog.showMessageBox({
+            message: JSON.stringify(allSettings),
+          });
+        },
+      },
       isMac ? { role: 'close' } : { role: 'quit' },
     ],
   },
