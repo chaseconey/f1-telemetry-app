@@ -23,6 +23,12 @@ This app uses the normal in-game telemetry that you might have used before. The 
 - UDP Port: 20777 (default)
 - UDP Format: 2021
 
+### Automatic Data File
+
+This app was designed to work with the [League Portal](https://github.com/chaseconey/frl) and as such will automatically download the data from each session.
+
+As of right now, this file automatically goes into your Downloads directory, but this will be configurable later.
+
 ### Driver Name Map
 
 By default, the app will only show you racing numbers, as the name is not available on all platforms. If you would like to map names to those drivers, you can make a simple csv file that looks like so:
