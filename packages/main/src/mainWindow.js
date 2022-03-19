@@ -2,7 +2,7 @@ import { BrowserWindow, Menu } from 'electron';
 import { join } from 'path';
 import { URL } from 'url';
 import { F1TelemetryClient, constants } from '@racehub-io/f1-telemetry-client';
-import { loadDriverMap, mergeData } from './utils';
+import { handleFinalClassification, loadDriverMap, mergeData } from './utils';
 import { app, ipcMain } from 'electron';
 import fs from 'fs';
 import { menuConfig } from './mainMenu';
@@ -49,40 +49,20 @@ client.on(PACKETS.session, (data) => (session = data));
 client.on(PACKETS.participants, (data) => (drivers = data));
 // client.on(PACKETS.carTelemetry, console.log);
 // client.on(PACKETS.carStatus, console.log);
-client.on(PACKETS.finalClassification, (data) =>
-  handleFinalClassification(data)
-);
-// client.on(PACKETS.lobbyInfo, console.log);
-// client.on(PACKETS.carDamage, console.log);
-client.on(PACKETS.sessionHistory, (data) => {
-  lapHistory[data.m_carIdx] = data;
-});
-
-function handleFinalClassification(data) {
-  console.log('writing final data');
+client.on(PACKETS.finalClassification, (data) => {
   const driverData = mergeData(
     lapData.m_lapData,
     drivers.m_participants,
     lapHistory,
     data.m_classificationData
   );
-
-  const raceData = {
-    driverData,
-    session,
-  };
-
-  const downloadPath = app.getPath('downloads');
-  // TODO: use session id in name
-  const fileLocation = `${downloadPath}/race.json`;
-
-  BigInt.prototype['toJSON'] = function () {
-    return this.toString();
-  };
-  fs.writeFileSync(fileLocation, JSON.stringify(raceData));
-
-  console.log(`Race data written to ${fileLocation}`);
-}
+  handleFinalClassification(driverData, session);
+});
+// client.on(PACKETS.lobbyInfo, console.log);
+// client.on(PACKETS.carDamage, console.log);
+client.on(PACKETS.sessionHistory, (data) => {
+  lapHistory[data.m_carIdx] = data;
+});
 
 async function createWindow() {
   const browserWindow = new BrowserWindow({

@@ -1,6 +1,7 @@
 import { parse } from 'csv-parse/sync';
 import fs from 'fs';
 import { merge, keyBy } from 'lodash';
+import { app } from 'electron';
 
 export const out = (rawData, name) => {
   BigInt.prototype['toJSON'] = function () {
@@ -32,4 +33,19 @@ export const loadDriverMap = (driverMapFile) => {
   });
 
   return keyBy(parsed, 'number');
+};
+
+export const handleFinalClassification = (driverData, session) => {
+  const raceData = {
+    driverData,
+    session,
+  };
+
+  const downloadPath = app.getPath('downloads');
+  const fileName = session.m_header.m_sessionUID;
+  const fileLocation = `${downloadPath}/${fileName}.json`;
+
+  fs.writeFileSync(fileLocation, JSON.stringify(raceData));
+
+  console.log(`Race data written to ${fileLocation}`);
 };
