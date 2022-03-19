@@ -55,3 +55,12 @@ export const tracks = [
   'Portimão', // 28
   'Jeddah', // 29
 ];
+
+export const carParts = {
+  m_frontLeftWingDamage: 'Left Wing',
+  m_frontRightWingDamage: 'Right Wing',
+  m_rearWingDamage: 'Rear Wing',
+  m_floorDamage: 'Floor',
+  m_diffuserDamage: 'Diffuser',
+  m_sidepodDamage: 'Sidepod',
+};

@@ -13,7 +13,7 @@ export default {
   },
   methods: {
     formatNonZero(numberInMs) {
-      if (numberInMs == 0) return '-';
+      if (numberInMs == 0 || !numberInMs) return '-';
       return (numberInMs / 1000).toFixed(3);
     },
     isPersonalBestSector(sector) {

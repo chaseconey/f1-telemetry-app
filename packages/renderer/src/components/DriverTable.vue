@@ -1,9 +1,11 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import SectorTimeCells from './SectorTimeCells.vue';
+import TireWearCell from './TireWearCell.vue';
+import CarDamageCell from './CarDamageCell.vue';
 
 export default {
-  components: { SectorTimeCells },
+  components: { SectorTimeCells, TireWearCell, CarDamageCell },
   computed: {
     ...mapState(['drivers', 'fastestLap']),
     sortedLapData() {
@@ -58,7 +60,13 @@ export default {
           S3
         </th>
         <th scope="col">
-          Penalties
+          Wear
+        </th>
+        <th scope="col">
+          Dmg
+        </th>
+        <th scope="col">
+          Pen
         </th>
       </tr>
     </thead>
@@ -85,13 +93,15 @@ export default {
             {{ formatNonZero(driver.m_lastLapTimeInMS) }}
           </td>
           <SectorTimeCells :driver="driver" />
+          <TireWearCell :driver="driver" />
+          <CarDamageCell :driver="driver" />
           <td class="text-end">
             {{ driver.m_penalties || 0 }}s
           </td>
         </template>
         <template v-else>
           <td
-            colspan="5"
+            colspan="7"
             class="text-center"
           >
             DNF

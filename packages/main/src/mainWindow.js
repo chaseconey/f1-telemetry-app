@@ -15,6 +15,7 @@ const { PACKETS } = constants;
 let session = {};
 let lapData = {};
 let drivers = {};
+let damage = {};
 let lapHistory = [];
 let events = [];
 let fastestLap;
@@ -54,7 +55,7 @@ client.on(PACKETS.finalClassification, (data) => {
   handleFinalClassification(driverData, session);
 });
 // client.on(PACKETS.lobbyInfo, console.log);
-// client.on(PACKETS.carDamage, console.log);
+client.on(PACKETS.carDamage, (data) => (damage = data));
 client.on(PACKETS.sessionHistory, (data) => {
   lapHistory[data.m_carIdx] = data;
 });
@@ -92,6 +93,7 @@ async function createWindow() {
         lapData.m_lapData,
         drivers.m_participants,
         lapHistory,
+        damage.m_carDamageData,
       );
       browserWindow?.webContents.send('drivers', merged);
       browserWindow?.webContents.send('fastestLap', fastestLap);
