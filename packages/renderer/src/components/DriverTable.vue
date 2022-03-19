@@ -70,10 +70,17 @@ export default {
             {{ formatNonZero(driver.m_lastLapTimeInMS) }}
           </td>
           <SectorTimeCells :driver="driver" />
-          <td class="text-end">{{ driver.m_penalties || 0 }}s</td>
+          <td class="text-end">
+            {{ driver.m_penalties || 0 }}s
+          </td>
         </template>
         <template v-else>
-          <td colspan="5" class="text-center">DNF</td>
+          <td
+            colspan="5"
+            class="text-center"
+          >
+            DNF
+          </td>
         </template>
       </tr>
     </tbody>
