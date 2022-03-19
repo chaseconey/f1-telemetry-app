@@ -1,6 +1,7 @@
 <script>
 import { mapState } from 'vuex';
 import { tracks, weatherTypes, sessionTypes } from '/@/constants';
+import { kebabCase } from 'lodash';
 
 export default {
   computed: {
@@ -24,11 +25,17 @@ export default {
       );
     },
   },
+  methods: {
+    getWeatherIcon(sample) {
+      const icon = kebabCase(weatherTypes[sample.m_weather]);
+      return `/assets/${icon}.png`;
+    },
+  },
 };
 </script>
 
 <template>
-  <div v-if="session?.m_trackId">
+  <div v-if="session">
     <h1>
       {{ tracks[session?.m_trackId] }}
       <span class="fs-6">({{ sessionTypes[session?.m_sessionType] }})</span>
@@ -43,7 +50,7 @@ export default {
         Safety Car: {{ session?.m_safetyCarStatus == 1 ? 'Yes' : 'No' }}
       </div>
       <div class="col py-2">
-        Air Temp: {{ session?.m_airTemperature }}
+        Air Temp: {{ session?.m_airTemperature }}°
       </div>
     </div>
     <h2>Forecast</h2>
@@ -54,11 +61,20 @@ export default {
         class="col"
       >
         <div class="d-flex flex-column text-center border">
-          <b>{{ weatherTypes[sample.m_weather] }}</b>
+          <img
+            style="width: 8rem"
+            class="align-self-center"
+            :src="getWeatherIcon(sample)"
+            :alt="weatherTypes[sample.m_weather]"
+          >
 
-          <div>{{ sample.m_trackTemperature }}°</div>
-          <div>{{ sample.m_rainPercentage }}%</div>
-          {{ sample.m_timeOffset }} m
+          <div class="fs-3 d-flex justify-content-evenly">
+            <div>{{ sample.m_trackTemperature }}°</div>
+            <div>{{ sample.m_rainPercentage }}%</div>
+          </div>
+          <div class="text-secondary">
+            {{ sample.m_timeOffset }} m
+          </div>
         </div>
       </div>
     </div>
