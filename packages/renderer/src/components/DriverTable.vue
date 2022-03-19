@@ -22,19 +22,14 @@ export default {
       if (numberInMs == 0) return '-';
       return (numberInMs / 1000).toFixed(3);
     },
-    isPersonalBestSector(driver, bestSectorLap) {
-      return (
-        bestSectorLap == driver.m_currentLapNum && driver.m_currentLapNum != 1
-      );
-    },
     isFastestLap(driver) {
       return (
         driver?.m_bestLapTimeLapNum == driver?.m_currentLapNum - 1 &&
         driver.m_currentLapNum != 1
       );
     },
-    getLastLapData(driver) {
-      return driver.m_lapHistoryData[driver.m_currentLapNum - 1];
+    isDriverActive(driver) {
+      return [2, 3].includes(driver.m_resultStatus);
     },
   },
 };
@@ -57,23 +52,29 @@ export default {
       <tr
         v-for="(driver, idx) in sortedLapData"
         :key="idx"
+        :class="{
+          'bg-light': !isDriverActive(driver),
+        }"
       >
         <td>{{ driver.m_carPosition }}</td>
         <td>{{ getDriveNameByRacingNumber(driver.m_raceNumber) }}</td>
-        <td
-          class="text-end"
-          :class="{
-            'bg-success text-white': isFastestLap(driver),
-            'bg-purple text-white':
-              driver?.m_lastLapTimeInMS * 1000 == fastestLap,
-          }"
-        >
-          {{ formatNonZero(driver.m_lastLapTimeInMS) }}
-        </td>
-        <SectorTimeCells :driver="driver" />
-        <td class="text-end">
-          {{ driver.m_penalties || 0 }}s
-        </td>
+        <template v-if="isDriverActive(driver)">
+          <td
+            class="text-end"
+            :class="{
+              'bg-success text-white': isFastestLap(driver),
+              'bg-purple text-white':
+                driver?.m_lastLapTimeInMS * 1000 == fastestLap,
+            }"
+          >
+            {{ formatNonZero(driver.m_lastLapTimeInMS) }}
+          </td>
+          <SectorTimeCells :driver="driver" />
+          <td class="text-end">{{ driver.m_penalties || 0 }}s</td>
+        </template>
+        <template v-else>
+          <td colspan="5" class="text-center">DNF</td>
+        </template>
       </tr>
     </tbody>
   </table>
