@@ -35,6 +35,9 @@ export const loadDriverMap = (driverMapFile) => {
   return keyBy(parsed, 'number');
 };
 
+/**
+ * Write out all race data as a json file
+ */
 export const handleFinalClassification = (driverData, session) => {
   const raceData = {
     driverData,
