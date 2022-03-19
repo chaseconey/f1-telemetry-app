@@ -2,8 +2,9 @@
 
 A fairly simple F1 2021 Game broadcasting and data collection tool.
 
-<img src="https://user-images.githubusercontent.com/1449463/159109120-dcfeed67-55fe-40bc-9725-8383b92eadd8.png" width="500" />
-<img src="https://user-images.githubusercontent.com/1449463/159109128-8c910ff4-69bb-4fcf-8bca-31d4435dfe75.png" width="500" />
+
+<img src="https://user-images.githubusercontent.com/1449463/159140813-a8636a49-c3ce-420e-aeb4-263bb6eb58cf.png" width="650" />
+<img src="https://user-images.githubusercontent.com/1449463/159140809-58b48a2a-63a1-4cdd-a3ac-1c858693aa1d.png" width="650" />
 
 ## Usage
 
