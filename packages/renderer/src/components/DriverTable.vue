@@ -1,5 +1,5 @@
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   computed: {
@@ -12,11 +12,10 @@ export default {
       // Remove dead cars
       const filtered = this.drivers?.filter((car) => car.m_carPosition > 0);
 
-      // TODO: Map in driver names
-
       // Sort by position
       return filtered.sort((a, b) => a.m_carPosition - b.m_carPosition);
     },
+    ...mapGetters(['getDriveNameByRacingNumber']),
   },
   methods: {
     formatNonZero(numberInMs) {
@@ -33,6 +32,9 @@ export default {
         driver?.m_bestLapTimeLapNum == driver?.m_currentLapNum - 1 &&
         driver.m_currentLapNum != 1
       );
+    },
+    getLastLapData(driver) {
+      return driver.m_lapHistoryData[driver.m_currentLapNum - 1];
     },
   },
 };
@@ -56,7 +58,7 @@ export default {
         :key="idx"
       >
         <td>{{ driver.m_carPosition }}</td>
-        <td>{{ driver.m_raceNumber || idx }}</td>
+        <td>{{ getDriveNameByRacingNumber(driver.m_raceNumber) }}</td>
         <td
           class="text-end"
           :class="{
@@ -91,10 +93,10 @@ export default {
         </td>
         <td class="text-end">
           {{ driver.m_penalties || 0 }}s
-          <span
+          <!-- <span
             :class="{ 'bg-warning text-dark': driver.m_warnings > 0 }"
             class="badge bg-secondary text-white"
-          >{{ driver.m_warnings || 0 }}</span>
+          >{{ driver.m_warnings || 0 }}</span> -->
         </td>
       </tr>
     </tbody>

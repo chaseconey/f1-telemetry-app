@@ -8,6 +8,7 @@ export default {
   },
 
   created() {
+    // Interval updates
     window.api.handle('drivers', () => (event, data) => {
       this.$store.state.drivers = data;
     });
@@ -17,6 +18,14 @@ export default {
     window.api.handle('fastestLap', () => (_event, data) => {
       this.$store.state.fastestLap = data;
     });
+    window.api.handle('fastestLap', () => (_event, data) => {
+      this.$store.state.fastestLap = data;
+    });
+
+    // One and done
+    window.api.send('loadDriverMap').then((driverMap) => {
+      this.$store.state.driverMap = driverMap;
+    });
   },
 };
 </script>
@@ -25,10 +34,10 @@ export default {
     <TopNav />
     <router-view />
     <div
-      v-if="!$store.state.drivers"
-      class="text-center"
+      v-if="$store.state.drivers.length === 0"
+      class="text-center fs-1"
     >
-      Waiting for match ...
+      Waiting for session ...
     </div>
   </div>
 </template>

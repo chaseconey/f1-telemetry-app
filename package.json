@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@racehub-io/f1-telemetry-client": "^0.2.6",
+    "csv-parse": "^5.0.4",
     "electron-updater": "4.6.5",
     "lodash": "^4.17.21",
     "vue": "3.2.31",

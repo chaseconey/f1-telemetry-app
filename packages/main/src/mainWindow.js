@@ -2,10 +2,16 @@ import { BrowserWindow, Menu } from 'electron';
 import { join } from 'path';
 import { URL } from 'url';
 import { F1TelemetryClient, constants } from '@racehub-io/f1-telemetry-client';
-import { mergeData } from './utils';
-import { app } from 'electron';
+import { loadDriverMap, mergeData } from './utils';
+import { app, ipcMain } from 'electron';
 import fs from 'fs';
 import { menuConfig } from './mainMenu';
+
+ipcMain.handle('loadDriverMap', async () => {
+  let driverMap = loadDriverMap(app.getPath('downloads') + '/driver-map.csv');
+
+  return driverMap;
+});
 
 let mainMenu = Menu.buildFromTemplate(menuConfig);
 
@@ -44,7 +50,7 @@ client.on(PACKETS.participants, (data) => (drivers = data));
 // client.on(PACKETS.carTelemetry, console.log);
 // client.on(PACKETS.carStatus, console.log);
 client.on(PACKETS.finalClassification, (data) =>
-  handleFinalClassification(data),
+  handleFinalClassification(data)
 );
 // client.on(PACKETS.lobbyInfo, console.log);
 // client.on(PACKETS.carDamage, console.log);
@@ -58,7 +64,7 @@ function handleFinalClassification(data) {
     lapData.m_lapData,
     drivers.m_participants,
     lapHistory,
-    data.m_classificationData,
+    data.m_classificationData
   );
 
   const raceData = {
@@ -110,7 +116,7 @@ async function createWindow() {
       let merged = mergeData(
         lapData.m_lapData,
         drivers.m_participants,
-        lapHistory,
+        lapHistory
       );
       browserWindow?.webContents.send('drivers', merged);
       browserWindow?.webContents.send('fastestLap', fastestLap);
@@ -131,7 +137,7 @@ async function createWindow() {
       ? import.meta.env.VITE_DEV_SERVER_URL
       : new URL(
           '../renderer/dist/index.html',
-          'file://' + __dirname,
+          'file://' + __dirname
         ).toString();
 
   await browserWindow.loadURL(pageUrl);

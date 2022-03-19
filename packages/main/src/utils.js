@@ -1,5 +1,6 @@
+import { parse } from 'csv-parse/sync';
 import fs from 'fs';
-import { merge } from 'lodash';
+import { merge, keyBy } from 'lodash';
 
 export const out = (rawData, name) => {
   BigInt.prototype['toJSON'] = function () {
@@ -21,4 +22,14 @@ export const mergeData = function () {
   }
 
   return combined;
+};
+
+export const loadDriverMap = (driverMapFile) => {
+  let csv = fs.readFileSync(driverMapFile);
+  const parsed = parse(csv, {
+    columns: () => ['number', 'name'],
+    skip_empty_lines: true,
+  });
+
+  return keyBy(parsed, 'number');
 };
