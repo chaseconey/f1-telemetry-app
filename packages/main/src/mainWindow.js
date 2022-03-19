@@ -62,6 +62,8 @@ client.on(PACKETS.sessionHistory, (data) => {
 
 async function createWindow() {
   const browserWindow = new BrowserWindow({
+    height: 1000,
+    width: 1000,
     show: false, // Use 'ready-to-show' event to show window
     webPreferences: {
       nativeWindowOpen: true,
