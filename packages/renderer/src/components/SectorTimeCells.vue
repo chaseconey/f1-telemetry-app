@@ -40,7 +40,7 @@ export default {
   <td
     class="text-end"
     :class="{
-      'bg-success text-white': isPersonalBestSector(1),
+      'table-success': isPersonalBestSector(1),
     }"
   >
     {{ formatNonZero(getSectorData?.m_sector1TimeInMS) }}
@@ -48,7 +48,7 @@ export default {
   <td
     class="text-end"
     :class="{
-      'bg-success text-white': isPersonalBestSector(2),
+      'table-success': isPersonalBestSector(2),
     }"
   >
     {{ formatNonZero(getSectorData?.m_sector2TimeInMS) }}
@@ -56,7 +56,7 @@ export default {
   <td
     class="text-end"
     :class="{
-      'bg-success text-white': isPersonalBestSector(3),
+      'table-success': isPersonalBestSector(3),
     }"
   >
     {{ formatNonZero(getSectorData?.m_sector3TimeInMS) }}

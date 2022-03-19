@@ -36,16 +36,30 @@ export default {
 </script>
 
 <template>
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
-        <th>Pos</th>
-        <th>Driver</th>
-        <th>Last Lap</th>
-        <th>S1</th>
-        <th>S2</th>
-        <th>S3</th>
-        <th>Penalties</th>
+        <th scope="col">
+          Pos
+        </th>
+        <th scope="col">
+          Driver
+        </th>
+        <th scope="col">
+          Last Lap
+        </th>
+        <th scope="col">
+          S1
+        </th>
+        <th scope="col">
+          S2
+        </th>
+        <th scope="col">
+          S3
+        </th>
+        <th scope="col">
+          Penalties
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -53,8 +67,9 @@ export default {
         v-for="(driver, idx) in sortedLapData"
         :key="idx"
         :class="{
-          'bg-light': !isDriverActive(driver),
+          'table-warning': !isDriverActive(driver),
         }"
+        scope="row"
       >
         <td>{{ driver.m_carPosition }}</td>
         <td>{{ getDriveNameByRacingNumber(driver.m_raceNumber) }}</td>
@@ -62,7 +77,7 @@ export default {
           <td
             class="text-end"
             :class="{
-              'bg-success text-white': isFastestLap(driver),
+              'table-success': isFastestLap(driver),
               'bg-purple text-white':
                 driver?.m_lastLapTimeInMS * 1000 == fastestLap,
             }"
