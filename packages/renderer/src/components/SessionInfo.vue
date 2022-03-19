@@ -62,8 +62,8 @@ export default {
       >
         <div class="d-flex flex-column text-center border">
           <img
-            style="width: 128px"
-            class="align-self-center p-4"
+            style="width: 84px"
+            class="align-self-center p-2"
             :src="getWeatherIcon(sample)"
             :alt="weatherTypes[sample.m_weather]"
           >
