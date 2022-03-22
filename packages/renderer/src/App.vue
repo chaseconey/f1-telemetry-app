@@ -32,12 +32,12 @@ export default {
 <template>
   <div class="container">
     <TopNav />
-    <router-view />
     <div
       v-if="$store.state.drivers.length === 0"
       class="text-center fs-1"
     >
       Waiting for session ...
     </div>
+    <router-view v-else />
   </div>
 </template>
