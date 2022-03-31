@@ -5,6 +5,7 @@ import TireWearCell from './TireWearCell.vue';
 import CarDamageCell from './CarDamageCell.vue';
 import GridPositionCell from './GridPositionCell.vue';
 import { formatSecondsToMinutes } from '../utils';
+import { tracks, sessionTypes } from '/@/constants';
 
 export default {
   components: {
@@ -14,7 +15,7 @@ export default {
     GridPositionCell,
   },
   computed: {
-    ...mapState(['drivers', 'fastestLap']),
+    ...mapState(['drivers', 'fastestLap', 'session']),
     sortedLapData() {
       if (!this.drivers) {
         return [];
@@ -25,6 +26,10 @@ export default {
       return filtered.sort((a, b) => a.m_carPosition - b.m_carPosition);
     },
     ...mapGetters(['getDriveNameByRacingNumber']),
+  },
+  created() {
+    this.tracks = tracks;
+    this.sessionTypes = sessionTypes;
   },
   methods: {
     formatNonZero(numberInMs) {
@@ -46,78 +51,87 @@ export default {
 </script>
 
 <template>
-  <table class="table table-striped table-bordered table-hover">
-    <thead>
-      <tr>
-        <th scope="col">
-          Pos
-        </th>
-        <th scope="col">
-          Driver
-        </th>
-        <th scope="col">
-          Last Lap
-        </th>
-        <th scope="col">
-          S1
-        </th>
-        <th scope="col">
-          S2
-        </th>
-        <th scope="col">
-          S3
-        </th>
-        <th scope="col">
-          Wear
-        </th>
-        <th scope="col">
-          Dmg
-        </th>
-        <th scope="col">
-          Pen
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="(driver, idx) in sortedLapData"
-        :key="idx"
-        :class="{
-          'table-warning': !isDriverActive(driver),
-        }"
-        scope="row"
-      >
-        <GridPositionCell :driver="driver" />
-        <td>{{ getDriveNameByRacingNumber(driver.m_raceNumber) }}</td>
-        <template v-if="isDriverActive(driver)">
-          <td
-            class="text-end"
-            :class="{
-              'table-success': isFastestLap(driver),
-              'bg-purple text-white':
-                driver?.m_lastLapTimeInMS * 1000 == fastestLap,
-            }"
-          >
-            {{ formatNonZero(driver.m_lastLapTimeInMS) }}
-          </td>
-          <SectorTimeCells :driver="driver" />
-          <TireWearCell :driver="driver" />
-          <CarDamageCell :driver="driver" />
-          <td class="text-end">
-            {{ driver.m_penalties || 0 }}s
-          </td>
-        </template>
-        <template v-else>
-          <td
-            colspan="7"
-            class="text-center"
-          >
-            DNF
-          </td>
-        </template>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <h1>
+      {{ tracks[session?.m_trackId] }}
+      <span class="fs-5">({{ sessionTypes[session?.m_sessionType] }})</span>
+    </h1>
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th scope="col">
+            Pos
+          </th>
+          <th scope="col">
+            Driver
+          </th>
+          <th scope="col">
+            Last Lap
+          </th>
+          <th scope="col">
+            S1
+          </th>
+          <th scope="col">
+            S2
+          </th>
+          <th scope="col">
+            S3
+          </th>
+          <th scope="col">
+            Wear
+          </th>
+          <th scope="col">
+            Dmg
+          </th>
+          <th scope="col">
+            Pen
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(driver, idx) in sortedLapData"
+          :key="idx"
+          :class="{
+            'table-warning': !isDriverActive(driver),
+          }"
+          scope="row"
+        >
+          <GridPositionCell
+            :driver="driver"
+            :session="session"
+          />
+          <td>{{ getDriveNameByRacingNumber(driver.m_raceNumber) }}</td>
+          <template v-if="isDriverActive(driver)">
+            <td
+              class="text-end"
+              :class="{
+                'table-success': isFastestLap(driver),
+                'bg-purple text-white':
+                  driver?.m_lastLapTimeInMS * 1000 == fastestLap,
+              }"
+            >
+              {{ formatNonZero(driver.m_lastLapTimeInMS) }}
+            </td>
+            <SectorTimeCells :driver="driver" />
+            <TireWearCell :driver="driver" />
+            <CarDamageCell :driver="driver" />
+            <td class="text-end">
+              {{ driver.m_penalties || 0 }}s
+            </td>
+          </template>
+          <template v-else>
+            <td
+              colspan="7"
+              class="text-center"
+            >
+              DNF
+            </td>
+          </template>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 <style scoped>
 .bg-purple {

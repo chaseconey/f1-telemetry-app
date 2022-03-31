@@ -1,6 +1,9 @@
 <script>
 export default {
-  props: { driver: { type: Object, default: () => {} } },
+  props: {
+    driver: { type: Object, default: () => {} },
+    session: { type: Object, default: () => {} },
+  },
   computed: {
     positionsChanged() {
       return this.driver.m_gridPosition - this.driver.m_carPosition;
@@ -16,7 +19,11 @@ export default {
 
     <!-- <span class="fs-5">{{ driver.m_carPosition }}</span> -->
     <span
-      v-if="positionsChanged && positionsChanged !== 0"
+      v-if="
+        positionsChanged &&
+          positionsChanged !== 0 &&
+          session.m_sessionType === 10
+      "
       class="ms-2"
       :class="{
         'text-danger': positionsChanged < 0,

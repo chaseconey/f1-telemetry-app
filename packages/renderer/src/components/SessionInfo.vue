@@ -6,15 +6,6 @@ import { kebabCase, groupBy } from 'lodash';
 export default {
   computed: {
     ...mapState(['session']),
-    weatherTypes() {
-      return weatherTypes;
-    },
-    tracks() {
-      return tracks;
-    },
-    sessionTypes() {
-      return sessionTypes;
-    },
     filteredWeatherSamples() {
       if (!this.session?.m_weatherForecastSamples) {
         return [];
@@ -26,6 +17,11 @@ export default {
 
       return groupBy(samples, 'm_sessionType');
     },
+  },
+  created() {
+    this.sessionTypes = sessionTypes;
+    this.tracks = tracks;
+    this.weatherTypes = weatherTypes;
   },
   methods: {
     getWeatherIcon(sample) {
@@ -40,7 +36,7 @@ export default {
   <div v-if="session">
     <h1>
       {{ tracks[session?.m_trackId] }}
-      <span class="fs-6">({{ sessionTypes[session?.m_sessionType] }})</span>
+      <span class="fs-5">({{ sessionTypes[session?.m_sessionType] }})</span>
     </h1>
     <!-- <p>{{ session?.m_header }}</p> -->
     <h2>Quick Stats</h2>
