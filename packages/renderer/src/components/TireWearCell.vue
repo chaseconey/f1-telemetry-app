@@ -17,13 +17,15 @@ export default {
 
 <template>
   <td>
-    <div class="d-flex justify-content-evenly">
-      <span>{{ formatTireWear(driver.m_tyresWear[0]) }}</span>
-      <span>{{ formatTireWear(driver.m_tyresWear[1]) }}</span>
-    </div>
-    <div class="d-flex justify-content-evenly">
-      <span>{{ formatTireWear(driver.m_tyresWear[2]) }}</span>
-      <span>{{ formatTireWear(driver.m_tyresWear[3]) }}</span>
+    <div v-if="driver.m_yourTelemetry === 1">
+      <div class="d-flex justify-content-evenly">
+        <span>{{ formatTireWear(driver.m_tyresWear[0]) }}</span>
+        <span>{{ formatTireWear(driver.m_tyresWear[1]) }}</span>
+      </div>
+      <div class="d-flex justify-content-evenly">
+        <span>{{ formatTireWear(driver.m_tyresWear[2]) }}</span>
+        <span>{{ formatTireWear(driver.m_tyresWear[3]) }}</span>
+      </div>
     </div>
   </td>
 </template>
