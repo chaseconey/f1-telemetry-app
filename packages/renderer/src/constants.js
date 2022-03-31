@@ -64,3 +64,16 @@ export const carParts = {
   m_diffuserDamage: 'Diffuser',
   m_sidepodDamage: 'Sidepod',
 };
+
+export const teams = [
+  'Mercedes',
+  'Ferrari',
+  'Red Bull Racing',
+  'Williams',
+  'Aston Martin',
+  'Alpine',
+  'Alpha Tauri',
+  'Haas',
+  'McLaren',
+  'Alfa Romeo',
+];

@@ -5,7 +5,7 @@ import TireWearCell from './TireWearCell.vue';
 import CarDamageCell from './CarDamageCell.vue';
 import GridPositionCell from './GridPositionCell.vue';
 import { formatSecondsToMinutes } from '../utils';
-import { tracks, sessionTypes } from '/@/constants';
+import { tracks, sessionTypes, teams } from '/@/constants';
 
 export default {
   components: {
@@ -30,6 +30,7 @@ export default {
   created() {
     this.tracks = tracks;
     this.sessionTypes = sessionTypes;
+    this.teams = teams;
   },
   methods: {
     formatNonZero(numberInMs) {
@@ -101,7 +102,15 @@ export default {
             :driver="driver"
             :session="session"
           />
-          <td>{{ getDriveNameByRacingNumber(driver.m_raceNumber) }}</td>
+          <td class="">
+            <span>{{ getDriveNameByRacingNumber(driver.m_raceNumber) }}</span>
+            <span
+              class="text-secondary"
+              style="font-size: 0.8rem"
+            >
+              ({{ teams[driver?.m_teamId] }})
+            </span>
+          </td>
           <template v-if="isDriverActive(driver)">
             <td
               class="text-end"
