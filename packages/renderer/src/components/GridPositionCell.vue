@@ -15,21 +15,21 @@ export default {
 
 <template>
   <td class="text-nowrap">
-    <span class="badge bg-dark fs-5">{{ driver.m_carPosition }}</span>
-
-    <!-- <span class="fs-5">{{ driver.m_carPosition }}</span> -->
+    <span class="badge bg-dark">{{ driver.m_carPosition }}</span>
     <span
       v-if="
         positionsChanged &&
           positionsChanged !== 0 &&
           session.m_sessionType === 10
       "
+      style="font-size: 0.8rem"
       class="ms-2"
       :class="{
         'text-danger': positionsChanged < 0,
         'text-success': positionsChanged > 0,
       }"
-    >{{ positionsChanged > 0 ? '▲' : '▼' }}
+    >
+      {{ positionsChanged > 0 ? '▲' : '▼' }}
       {{ Math.abs(positionsChanged) }}</span>
   </td>
 </template>
