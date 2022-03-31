@@ -3,9 +3,15 @@ import { mapState, mapGetters } from 'vuex';
 import SectorTimeCells from './SectorTimeCells.vue';
 import TireWearCell from './TireWearCell.vue';
 import CarDamageCell from './CarDamageCell.vue';
+import GridPositionCell from './GridPositionCell.vue';
 
 export default {
-  components: { SectorTimeCells, TireWearCell, CarDamageCell },
+  components: {
+    SectorTimeCells,
+    TireWearCell,
+    CarDamageCell,
+    GridPositionCell,
+  },
   computed: {
     ...mapState(['drivers', 'fastestLap']),
     sortedLapData() {
@@ -79,7 +85,7 @@ export default {
         }"
         scope="row"
       >
-        <td>{{ driver.m_carPosition }}</td>
+        <GridPositionCell :driver="driver" />
         <td>{{ getDriveNameByRacingNumber(driver.m_raceNumber) }}</td>
         <template v-if="isDriverActive(driver)">
           <td
