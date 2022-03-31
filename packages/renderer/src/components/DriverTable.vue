@@ -4,6 +4,7 @@ import SectorTimeCells from './SectorTimeCells.vue';
 import TireWearCell from './TireWearCell.vue';
 import CarDamageCell from './CarDamageCell.vue';
 import GridPositionCell from './GridPositionCell.vue';
+import { formatSecondsToMinutes } from '../utils';
 
 export default {
   components: {
@@ -28,7 +29,8 @@ export default {
   methods: {
     formatNonZero(numberInMs) {
       if (numberInMs == 0) return '-';
-      return (numberInMs / 1000).toFixed(3);
+      const seconds = (numberInMs / 1000).toFixed(3);
+      return formatSecondsToMinutes(seconds);
     },
     isFastestLap(driver) {
       return (
