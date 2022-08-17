@@ -1,7 +1,6 @@
 # F1 Telemetry App
 
-A fairly simple F1 2021 Game broadcasting and data collection tool.
-
+A fairly simple F1 22 Game broadcasting and data collection tool.
 
 <img src="https://user-images.githubusercontent.com/1449463/159140813-a8636a49-c3ce-420e-aeb4-263bb6eb58cf.png" width="650" />
 <img src="https://user-images.githubusercontent.com/1449463/159140809-58b48a2a-63a1-4cdd-a3ac-1c858693aa1d.png" width="650" />
@@ -22,7 +21,7 @@ This app uses the normal in-game telemetry that you might have used before. The 
 - UDP Broadcast Mode: Off|On
 - UDP IP Address: If Broadcast Mode Off, put your computer's IP address here
 - UDP Port: 20777 (default)
-- UDP Format: 2021
+- UDP Format: 2022
 
 ### Automatic Data File
 
