@@ -25,7 +25,7 @@ export default {
       // Sort by position
       return filtered.sort((a, b) => a.m_carPosition - b.m_carPosition);
     },
-    ...mapGetters(['getDriveNameByRacingNumber']),
+    ...mapGetters(['getDriverNameByRacingNumber']),
   },
   created() {
     this.tracks = tracks;
@@ -46,6 +46,12 @@ export default {
     },
     isDriverActive(driver) {
       return [2, 3].includes(driver.m_resultStatus);
+    },
+    driverNameDisplay(driver) {
+      const mappedName = this.getDriverNameByRacingNumber(driver.m_raceNumber);
+      const playerName = driver.m_name === 'Player' ? null : driver.m_name;
+
+      return mappedName || playerName || driver.m_raceNumber;
     },
   },
 };
@@ -103,7 +109,7 @@ export default {
             :session="session"
           />
           <td class="">
-            <span>{{ getDriveNameByRacingNumber(driver.m_raceNumber) }}</span>
+            <span>{{ driverNameDisplay(driver) }}</span>
             <span
               class="text-secondary"
               style="font-size: 0.8rem"
@@ -127,6 +133,11 @@ export default {
             <CarDamageCell :driver="driver" />
             <td class="text-end">
               {{ driver.m_penalties || 0 }}s
+              <span
+                :class="{
+                  'text-warning': driver.m_warnings % 3 === 2,
+                }"
+              >({{ driver.m_warnings || 0 }})</span>
             </td>
           </template>
           <template v-else>

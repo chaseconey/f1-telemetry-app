@@ -38,7 +38,7 @@
     "vitest": "0.4.2"
   },
   "dependencies": {
-    "@racehub-io/f1-telemetry-client": "^0.2.6",
+    "@racehub-io/f1-telemetry-client": "0.2.8",
     "csv-parse": "^5.0.4",
     "electron-settings": "^4.0.2",
     "electron-updater": "4.6.5",

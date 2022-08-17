@@ -10,8 +10,8 @@ export default createStore({
     };
   },
   getters: {
-    getDriveNameByRacingNumber: (state) => (number) => {
-      return state.driverMap[number]?.name || number;
+    getDriverNameByRacingNumber: (state) => (number) => {
+      return state.driverMap?.[number]?.name;
     },
   },
   // mutations: {

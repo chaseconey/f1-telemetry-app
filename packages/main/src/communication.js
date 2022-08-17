@@ -1,4 +1,4 @@
-import { ipcMain, app } from 'electron';
+import { ipcMain } from 'electron';
 import { loadDriverMap } from './utils';
 import settings from 'electron-settings';
 
@@ -7,13 +7,10 @@ import settings from 'electron-settings';
  */
 export const init = () => {
   ipcMain.handle('loadDriverMap', async () => {
-    let setting = await settings.get('driver.map-file');
-    let mapFileLocation =
-      setting || app.getPath('downloads') + '/driver-map.csv';
+    let mapFileLocation = await settings.get('driver.map-file');
 
-    // let driverMap = loadDriverMap(app.getPath('downloads') + '/driver-map.csv');
-    let driverMap = loadDriverMap(mapFileLocation);
-
-    return driverMap;
+    if (mapFileLocation) {
+      return loadDriverMap(mapFileLocation);
+    }
   });
 };

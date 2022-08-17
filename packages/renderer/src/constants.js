@@ -11,7 +11,8 @@ export const sessionTypes = [
   'OSQ', // 9
   'R', // 10
   'R2', // 11
-  'Time Trial', // 12
+  'R3', // 12
+  'Time Trial', // 13
 ];
 
 export const weatherTypes = [
@@ -54,6 +55,7 @@ export const tracks = [
   'Imola', // 27
   'Portimão', // 28
   'Jeddah', // 29
+  'Miami', // 30
 ];
 
 export const carParts = {
