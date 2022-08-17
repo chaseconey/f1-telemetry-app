@@ -133,6 +133,11 @@ export default {
             <CarDamageCell :driver="driver" />
             <td class="text-end">
               {{ driver.m_penalties || 0 }}s
+              <span
+                :class="{
+                  'text-warning': driver.m_warnings % 3 === 2,
+                }"
+              >({{ driver.m_warnings || 0 }})</span>
             </td>
           </template>
           <template v-else>
